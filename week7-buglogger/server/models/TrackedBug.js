@@ -15,7 +15,7 @@ TrackedBugSchema.virtual('bug', {
   justOne: true,
   ref: 'Bug'
 })
-TrackedBugSchema.virtual('$tracker', {
+TrackedBugSchema.virtual('tracker', {
   localField: 'accountId',
   foreignField: '_id',
   justOne: true,
