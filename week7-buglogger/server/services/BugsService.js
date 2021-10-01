@@ -2,12 +2,12 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class BugsService {
   async getBugs() {
-    const bugs = await dbContext.Bug.find()
+    const bugs = await dbContext.Bug.find().sort('-updatedAt').populate('creator')
     return bugs
   }
 
   async getBugById(bugId) {
-    const bug = await dbContext.Bug.find(bugId)
+    const bug = await dbContext.Bug.findById(bugId).populate('creator')
     if (!bug) {
       throw new BadRequest('Invalid Id')
     }
@@ -22,19 +22,24 @@ class BugsService {
 
   async editBug(bugId, body) {
     const bug = await this.getBugById(bugId)
-    bug.title = body.title || bug.title
-    bug.description = body.description || bug.description
-    bug.priority = body.priority || bug.priority
-    bug.closed = body.closed || bug.closed
-    bug.closedDate = body.closedDate || bug.closedDate
-    bug.creatorId = body.creatorId || bug.creatorId
-    await bug.save()
-    return bug
+    if (bug.closed) {
+      throw new BadRequest('this item is closed')
+    } else {
+      bug.title = body.title || bug.title
+      bug.description = body.description || bug.description
+      bug.priority = body.priority || bug.priority
+
+      await bug.save()
+      return bug
+    }
   }
 
-  async deleteBug(bugId) {
-    const deletedBug = await dbContext.Bug.findByIdAndDelete(bugId)
-    return deletedBug
+  async closeBug(bugId) {
+    const closedBug = await this.getBugById(bugId)
+    if (closedBug.closed === true) { return }
+    closedBug.closed = true
+    await closedBug.save()
+    return closedBug
   }
 
   async getNotesByBugId(bugId) {

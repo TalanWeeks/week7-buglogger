@@ -11,7 +11,7 @@ export class BugsController extends BaseController {
       .get('/:id/trackedbugs', this.getTrackedBugsByBugId)
       .post('', this.createBug)
       .put('/:id', this.editBug)
-      .delete('/:id', this.deleteBug)
+      .delete('/:id', this.closeBug)
   }
 
   async getBugs(req, res, next) {
@@ -34,6 +34,7 @@ export class BugsController extends BaseController {
 
   async createBug(req, res, next) {
     try {
+      req.body.creatorId = req.account.id
       const createdBug = await bugsService.createBug(req.body)
       res.send(createdBug)
     } catch (error) {
@@ -43,17 +44,17 @@ export class BugsController extends BaseController {
 
   async editBug(req, res, next) {
     try {
-      const editedBug = await bugsService.editBug(req.params.bugId, req.body)
+      const editedBug = await bugsService.editBug(req.params.id, req.body)
       res.send(editedBug)
     } catch (error) {
       next(error)
     }
   }
 
-  async deleteBug(req, res, next) {
+  async closeBug(req, res, next) {
     try {
-      const deletedBug = await bugsService.deleteBug(req.params.id)
-      res.send(deletedBug)
+      const closedBug = await bugsService.closeBug(req.params.id)
+      res.send(closedBug)
     } catch (error) {
       next(error)
     }
