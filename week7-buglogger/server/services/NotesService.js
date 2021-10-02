@@ -3,10 +3,7 @@ import { BadRequest } from '../utils/Errors'
 
 class NotesService {
   async getNotesByBugId(bugId) {
-    const notes = await dbContext.Notes.find({ bugId: bugId }).populate('creator')
-    if (!notes) {
-      throw new BadRequest('theres no notes for this bug sir')
-    }
+    const notes = await dbContext.Notes.find({ bugId }).populate('creator')
     return notes
   }
 
