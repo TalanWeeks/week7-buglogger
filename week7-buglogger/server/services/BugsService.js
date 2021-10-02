@@ -2,12 +2,12 @@ import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class BugsService {
   async getBugs() {
-    const bugs = await dbContext.Bug.find().sort('-updatedAt').populate('creator')
+    const bugs = await dbContext.Bugs.find().sort('-updatedAt').populate('creator')
     return bugs
   }
 
   async getBugById(bugId) {
-    const bug = await dbContext.Bug.findById(bugId).populate('creator')
+    const bug = await dbContext.Bugs.findById(bugId).populate('creator')
     if (!bug) {
       throw new BadRequest('Invalid Id')
     }
@@ -15,7 +15,7 @@ class BugsService {
   }
 
   async createBug(bugData) {
-    const bug = await dbContext.Bug.create(bugData)
+    const bug = await dbContext.Bugs.create(bugData)
     await bug.populate('creator')
     return bug
   }
@@ -43,12 +43,12 @@ class BugsService {
   }
 
   async getNotesByBugId(bugId) {
-    const notes = await dbContext.Note.find({ bugId }).populate('creator')
+    const notes = await dbContext.Notes.find({ bugId }).populate('creator')
     return notes
   }
 
   async getTrackedBugsByBugId(bugId) {
-    const trackedBugs = await dbContext.TrackedBug.find({ bugId }).populate('bug').populate('tracker')
+    const trackedBugs = await dbContext.TrackedBugs.find({ bugId }).populate('bug').populate('tracker')
     return trackedBugs
   }
 }

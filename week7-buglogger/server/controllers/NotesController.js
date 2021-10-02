@@ -1,5 +1,6 @@
 import BaseController from '../utils/BaseController'
 import { Auth0Provider } from '@bcwdev/auth0provider'
+import { notesService } from '../services/NotesService'
 
 export class NotesController extends BaseController {
   constructor() {
@@ -13,7 +14,7 @@ export class NotesController extends BaseController {
 
   async getNotesByBugId(req, res, next) {
     try {
-      const notes = await notesService.getNotesByBugId()
+      const notes = await notesService.getNotesByBugId(req.params.bugId)
       res.send(notes)
     } catch (error) {
       next(error)

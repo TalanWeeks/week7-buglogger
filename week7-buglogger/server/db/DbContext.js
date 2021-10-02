@@ -10,11 +10,11 @@ class DbContext {
   Account = mongoose.model('Account', AccountSchema);
   Profiles = mongoose.model('Profile', ProfileSchema, 'accounts');
 
-  Bug = mongoose.model('Bug', BugSchema);
+  Bugs = mongoose.model('Bug', BugSchema);
 
-  Note = mongoose.model('Note', NoteSchema);
+  Notes = mongoose.model('Note', NoteSchema);
 
-  TrackedBug = mongoose.model('TrackedBug', TrackedBugSchema);
+  TrackedBugs = mongoose.model('TrackedBug', TrackedBugSchema);
 }
 
 export const dbContext = new DbContext()
