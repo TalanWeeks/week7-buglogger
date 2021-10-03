@@ -1,8 +1,8 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
 class BugsService {
-  async getBugs() {
-    const bugs = await dbContext.Bugs.find().sort('-updatedAt').populate('creator')
+  async getBugs(query = {}) {
+    const bugs = await dbContext.Bugs.find(query).sort('-updatedAt').populate('creator')
     return bugs
   }
 

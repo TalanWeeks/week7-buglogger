@@ -32,7 +32,9 @@
                 </div>
                 <div class="col-md-3">
                   <h5>Closed Status:</h5>
-                  <h6>{{ currentBug.closed }}</h6>
+                  <span>{{ currentBug.closed }}</span>
+                  <i class="mdi mdi-brightness-1 text-success f-20 mx-3 selectable" title="edit bug" v-if="currentBug.closed"></i>
+                  <i class="mdi mdi-brightness-1 text-danger f-20 mx-3 selectable" title="edit bug" v-else></i>
                 </div>
               </div>
             </div>
@@ -42,7 +44,7 @@
                   <h6>Description: </h6>
                   <p>{{ currentBug.description }}</p>
                 </div>
-                <div class="col-6 text-end" v-if="account.id === currentBug.creatorId">
+                <div class="col-6 text-end" v-if="account.id === currentBug.creatorId && currentBug.closed === false">
                   <i class="mdi mdi-cog text-success f-20 mx-3 selectable" title="edit bug"></i>
                 </div>
               </div>

@@ -2,6 +2,7 @@ import { AppState } from '../AppState'
 import { Bug } from '../models/Bug'
 import { router } from '../router'
 import { logger } from '../utils/Logger'
+import { convertToQuery } from '../utils/Query'
 import { api } from './AxiosService'
 
 class BugsService {
@@ -14,8 +15,8 @@ class BugsService {
     router.push({ name: 'Bug', params: { id: res.data.id } })
   }
 
-  async getBugs() {
-    const res = await api.get('api/bugs')
+  async getBugs(query) {
+    const res = await api.get('api/bugs' + convertToQuery(query))
     logger.log('get all the bugs', res)
     if (res.data.length > 1) {
       AppState.bugs = res.data.map(b => new Bug(b))
