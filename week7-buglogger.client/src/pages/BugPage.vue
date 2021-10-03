@@ -1,8 +1,45 @@
 <template>
-  <div class="bugPage">
+  <div class="bugPage container-fluid px-5">
     <div v-if="currentBug">
-      <h3>hello from the this bugs page</h3>
-      {{ currentBug.name }}
+      <div class="row container-fluid ">
+        <div class="col-2 text-end">
+          <h2>Bug Title:</h2>
+        </div>
+        <div class="col-8 text-start ">
+          <h3>{{ currentBug.title }}</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-md-3">
+                  <h5>Reported by: </h5>
+                  <img :src="currentBug.creator.picture" width="75" alt="">
+                  <h6>{{ currentBug.creator.name }}</h6>
+                </div>
+                <div class="col-md-3">
+                  <h5>Priority: </h5>
+                  <h6>{{ currentBug.priority }}</h6>
+                </div>
+                <div class="col-md-3">
+                  <h5>Last Updated</h5>
+                  <h6>{{ currentBug.updatedAt }}</h6>
+                </div>
+                <div class="col-md-3">
+                  <h5>Closed Status:</h5>
+                  <h6>{{ currentBug.closed }}</h6>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+            </div>
+            <div class="card-footer">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div v-else>
       <h3>loading.........</h3>
