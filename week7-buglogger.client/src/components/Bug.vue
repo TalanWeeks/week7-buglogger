@@ -2,7 +2,9 @@
   <div class="bug">
     <div class="row mx-5 my-2 p-4 bg-dark text-light">
       <div class="col-2">
-        {{ bug.title }}
+        <router-link :to="{ name: 'Bug', params: {id: bug.id}}" class="selectable text-light" title="Bug Details">
+          {{ bug.title }}
+        </router-link>
       </div>
       <div class="col-2">
         <span class="px-5">{{ bug.priority }}</span>
@@ -11,7 +13,7 @@
         <span class="px-5">{{ bug.creatorName }}</span>
       </div>
       <div class="col-4 text-center">
-        {{ bug.updatedAt }}
+        {{ new Date(bug.updatedAt).toLocaleTimeString() }}
       </div>
       <div class="col-2">
         {{ bug.closed }}

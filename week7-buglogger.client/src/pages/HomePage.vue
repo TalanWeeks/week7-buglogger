@@ -35,6 +35,7 @@ export default {
   setup() {
     onMounted(async() => {
       try {
+        AppState.currentBug = {}
         await bugsService.getBugs()
       } catch (error) {
         Pop.toast(error, 'error')
