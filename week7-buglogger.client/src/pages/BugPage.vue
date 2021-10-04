@@ -119,6 +119,8 @@ import Pop from '../utils/Pop'
 import { bugsService } from '../services/BugsService'
 import { AppState } from '../AppState'
 import { notesService } from '../services/NotesService'
+import { logger } from '../utils/Logger'
+
 export default {
   setup() {
     const route = useRoute()
@@ -126,18 +128,13 @@ export default {
     onMounted(async() => {
       try {
         await bugsService.getBugById(route.params.id)
+        const bugId = route.params.id
+        await notesService.getNotesByBugId(bugId)
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
     })
-    onMounted(async() => {
-      try {
-        const id = route.params.id
-        await notesService.getNotesByBugId(id)
-      } catch (error) {
-        Pop.toast(error.message, 'error')
-      }
-    })
+
     return {
       bugs: computed(() => AppState.bugs),
       currentBug: computed(() => AppState.currentBug),

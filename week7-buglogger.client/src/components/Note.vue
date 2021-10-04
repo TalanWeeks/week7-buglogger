@@ -1,18 +1,24 @@
 <template>
   <div class="note">
-    <div class="row" v-if="note">
-      <div class="card">
-        <div class="col-12 text-end">
-          <h3>Note Creator: <span>{{ note.creator.name }}</span></h3>
-        </div>
-        <div class="col-12">
-          <p>{{ note.body }}</p>
-          <i class="mdi mdi-delete-forever text-danger f-20 mx-3" v-if="note.creator.id === account.id"> Closed </i>
-        </div>
-      </div>
+    <div class="row" v-if="!note.creatorName">
+      <h6>...loading...</h6>
     </div>
     <div class="row" v-else>
-      <h6>...loading...</h6>
+      <div class="card">
+        <div class="col-12 text-start">
+          <h5>
+            <span class="border-bottom">Note Creator: {{ note.creatorName }}</span>
+          </h5>
+        </div>
+        <div class="row">
+          <div class="col-md-6 my-2">
+            <p>* {{ note.body }}</p>
+          </div>
+          <div class="col-md-6 text-end my-2">
+            <i class="mdi mdi-delete-forever selectable text-danger f-20 mx-3" title="Delete Note" v-if="note.creatorId === account.id" @click="deleteNote(note.id)"></i>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -21,14 +27,23 @@
 import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 import { Note } from '../models/Note'
+import Pop from '../utils/Pop'
+import { notesService } from '../services/NotesService'
 export default {
   props: {
     note: { type: Note, required: true }
   },
-  setup() {
+  setup(props) {
     return {
       notes: computed(() => AppState.notes),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      async deleteNote(noteId) {
+        try {
+          await notesService.deleteNote(noteId)
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      }
     }
   }
 }
