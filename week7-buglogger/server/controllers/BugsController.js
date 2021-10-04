@@ -71,7 +71,7 @@ export class BugsController extends BaseController {
 
   async getTrackedBugsByBugId(req, res, next) {
     try {
-      const trackedBugs = await bugsService.getTrackedBugsByBugId(req.params.bugId)
+      const trackedBugs = await bugsService.getTrackedBugsByBugId(req.params.id)
       res.send(trackedBugs)
     } catch (error) {
       next(error)

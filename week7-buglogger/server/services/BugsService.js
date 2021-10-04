@@ -50,8 +50,8 @@ class BugsService {
     return notes
   }
 
-  async getTrackedBugsByBugId(bugId) {
-    const trackedBugs = await dbContext.TrackedBugs.find({ bugId }).populate('bug').populate('tracker')
+  async getTrackedBugsByBugId(id) {
+    const trackedBugs = await dbContext.TrackedBugs.find({ bugId: id }).populate('bug').populate('tracker')
     return trackedBugs
   }
 }

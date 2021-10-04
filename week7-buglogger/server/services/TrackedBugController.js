@@ -9,12 +9,12 @@ class TrackedBugsService {
   }
 
   async getUsersTrackingBug(accountId) {
-    const users = await dbContext.TrackedBugs.find({ accountId }).populate('tracker').populate('bug')
+    const users = await dbContext.TrackedBugs.find({ accountId: accountId }).populate('tracker').populate('bug')
     return users
   }
 
-  async getUsersTrackedBugs(bugId) {
-    const bugs = await dbContext.TrackedBugs.find({ bugId }).populate('tracker').populate('bug')
+  async getUsersTrackedBugs(id) {
+    const bugs = await dbContext.TrackedBugs.find({ accountId: id }).populate('tracker').populate('bug')
     return bugs
   }
 
