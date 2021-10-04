@@ -1,6 +1,6 @@
 <template>
   <div class="bug-form">
-    <form @submit.prevent="createBug()">
+    <form @submit.prevent="editBug()">
       <div class="form-group">
         <label for="title"></label>
         <input v-model="editable.title"
@@ -48,16 +48,18 @@ import { useRouter } from 'vue-router'
 import { bugsService } from '../services/BugsService'
 import Pop from '../utils/Pop'
 import { ref } from '@vue/reactivity'
+import { computed } from '@vue/runtime-core'
+import { AppState } from '../AppState'
 export default {
   setup() {
     const route = useRouter()
     const editable = ref({})
     return {
       editable,
+      currentBug: computed(() => AppState.currentBug),
       async editBug() {
         try {
-          const bugId = route.params.id
-          await bugsService.editBug(editable.value, bugId)
+          await bugsService.editBug(editable.value, this.currentBug.id)
           editable.value = {}
           Pop.toast('Bug Eddited', 'success')
           const modal = Modal.getInstance(document.getElementById('bug-form'))

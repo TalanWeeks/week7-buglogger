@@ -52,19 +52,19 @@
     </div>
 
     <div class="row text-center">
-      <div class="col-2">
+      <div class="col-md-2">
         <h3>Bug Title</h3>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <h3>Bug Priority</h3>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <h3>Reported By</h3>
       </div>
-      <div class="col-3">
+      <div class="col-md-3">
         <h3>Last Updated</h3>
       </div>
-      <div class="col-2">
+      <div class="col-md-2">
         <h3>Bug Status</h3>
       </div>
     </div>

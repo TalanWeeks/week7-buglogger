@@ -5,10 +5,10 @@
     </div>
     <div v-else>
       <div class="row container-fluid">
-        <div class="col-2 text-end">
+        <div class="col-md-2 text-end">
           <h2>Bug Title:</h2>
         </div>
-        <div class="col-8 text-start ">
+        <div class="col-md-8 text-start ">
           <h3>{{ currentBug.title }}</h3>
         </div>
       </div>
@@ -32,9 +32,10 @@
                 </div>
                 <div class="col-md-3">
                   <h5>Closed Status:</h5>
-                  <span>{{ currentBug.closed }}</span>
-                  <i class="mdi mdi-brightness-1 text-success f-20 mx-3 selectable" title="edit bug" v-if="currentBug.closed"></i>
-                  <i class="mdi mdi-brightness-1 text-danger f-20 mx-3 selectable" title="edit bug" v-else></i>
+                  <div>
+                    <i class="mdi mdi-brightness-1 text-danger f-20 mx-3" v-if="currentBug.closed"> Closed </i>
+                    <i class="mdi mdi-brightness-1 text-success f-20 mx-3 selectable" title="close bug" v-else @click="toggleStatus(true)"> Open </i>
+                  </div>
                 </div>
               </div>
             </div>
@@ -45,6 +46,7 @@
                   <p>{{ currentBug.description }}</p>
                 </div>
                 <div class="col-6 text-end" v-if="account.id === currentBug.creatorId && currentBug.closed === false">
+                  <span>Edit Bug Details: </span>
                   <i class="mdi mdi-cog text-success f-20 mx-3 selectable" title="edit bug" data-bs-toggle="modal" data-bs-target="#bug-form"></i>
                 </div>
               </div>
@@ -102,7 +104,6 @@ export default {
 
     onMounted(async() => {
       try {
-        AppState.currentBug = {}
         await bugsService.getBugById(route.params.id)
       } catch (error) {
         Pop.toast(error.message, 'error')
@@ -111,7 +112,14 @@ export default {
     return {
       bugs: computed(() => AppState.bugs),
       currentBug: computed(() => AppState.currentBug),
-      account: computed(() => AppState.account)
+      account: computed(() => AppState.account),
+      async toggleStatus(closed) {
+        try {
+          await bugsService.toggleStatus(closed, route.params.id)
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      }
     }
   }
 }

@@ -51,8 +51,18 @@ class BugsService {
     AppState.currentBug = res.data
   }
 
-  async editBug(bugId, bug) {
-    await api.put('api/bugs/' + bugId, bug)
+  async editBug(bugData, bugId) {
+    AppState.currentBug = {}
+    const res = await api.put('api/bugs/' + bugId, bugData)
+    AppState.currentBug = res.data
+    logger.log('your edited bug sir', res.data)
+  }
+
+  async toggleStatus(closed, bugId) {
+    AppState.currentBug = {}
+    const res = await api.put('api/bugs/' + bugId, { closed: closed })
+    AppState.currentBug = res.data
+    logger.log('your edited bug sir', res.data)
   }
 }
 export const bugsService = new BugsService()
