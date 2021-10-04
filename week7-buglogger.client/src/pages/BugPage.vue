@@ -45,7 +45,7 @@
                   <p>{{ currentBug.description }}</p>
                 </div>
                 <div class="col-6 text-end" v-if="account.id === currentBug.creatorId && currentBug.closed === false">
-                  <i class="mdi mdi-cog text-success f-20 mx-3 selectable" title="edit bug"></i>
+                  <i class="mdi mdi-cog text-success f-20 mx-3 selectable" title="edit bug" data-bs-toggle="modal" data-bs-target="#bug-form"></i>
                 </div>
               </div>
             </div>
@@ -80,6 +80,14 @@
       </div>
     </div>
   </div>
+  <Modal id="bug-form">
+    <template #modal-title>
+      Edit Bug
+    </template>
+    <template #modal-body>
+      <BugEditForm />
+    </template>
+  </Modal>
 </template>
 
 <script>

@@ -3,7 +3,6 @@ import { AppState } from '../AppState'
 import { Bug } from '../models/Bug'
 import { router } from '../router'
 import { logger } from '../utils/Logger'
-import { convertToQuery } from '../utils/Query'
 import { api } from './AxiosService'
 
 class BugsService {
@@ -50,6 +49,10 @@ class BugsService {
     const res = await api.get('api/bugs/' + id)
     logger.log('your single bug sir', res.data)
     AppState.currentBug = res.data
+  }
+
+  async editBug(bugId, bug) {
+    await api.put('api/bugs/' + bugId, bug)
   }
 }
 export const bugsService = new BugsService()
