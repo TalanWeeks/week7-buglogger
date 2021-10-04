@@ -44,7 +44,6 @@
 <script>
 
 import { Modal } from 'bootstrap'
-import { useRouter } from 'vue-router'
 import { bugsService } from '../services/BugsService'
 import Pop from '../utils/Pop'
 import { ref } from '@vue/reactivity'
@@ -52,7 +51,6 @@ import { computed } from '@vue/runtime-core'
 import { AppState } from '../AppState'
 export default {
   setup() {
-    const route = useRouter()
     const editable = ref({})
     return {
       editable,

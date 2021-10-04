@@ -31,7 +31,6 @@ import { AppState } from '../AppState'
 import { Bug } from '../models/Bug'
 import { bugsService } from '../services/BugsService'
 import Pop from '../utils/Pop'
-import { router } from '../router'
 
 export default {
   props: {
