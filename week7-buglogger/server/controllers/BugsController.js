@@ -16,7 +16,7 @@ export class BugsController extends BaseController {
 
   async getBugs(req, res, next) {
     try {
-      const bugs = await bugsService.getBugs()
+      const bugs = await bugsService.getBugs(req.query)
       res.send(bugs)
     } catch (error) {
       next(error)

@@ -4,7 +4,7 @@
       <div class="d-flex flex-column align-items-center">
         <img
           alt="logo"
-          src="../assets/img/cw-logo.png"
+          src="https://th.bing.com/th/id/OIP.dZeSUTwd0_N32yQ5mqkm6AHaHa?pid=ImgDet&rs=1"
           height="45"
         />
       </div>
@@ -23,8 +23,8 @@
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav me-auto">
         <li>
-          <router-link :to="{ name: 'About' }" class="btn text-success lighten-30 selectable text-uppercase">
-            About
+          <router-link :to="{ name: 'Account' }" class="btn text-info lighten-30 selectable text-uppercase">
+            Account
           </router-link>
         </li>
       </ul>

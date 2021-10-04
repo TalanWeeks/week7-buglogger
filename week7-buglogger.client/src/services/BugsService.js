@@ -1,3 +1,4 @@
+
 import { AppState } from '../AppState'
 import { Bug } from '../models/Bug'
 import { router } from '../router'
@@ -15,8 +16,9 @@ class BugsService {
     router.push({ name: 'Bug', params: { id: res.data.id } })
   }
 
-  async getBugs(query) {
-    const res = await api.get('api/bugs' + convertToQuery(query))
+  async getBugs() {
+    AppState.bugs = []
+    const res = await api.get('api/bugs')
     logger.log('get all the bugs', res)
     if (res.data.length > 1) {
       AppState.bugs = res.data.map(b => new Bug(b))
@@ -24,6 +26,23 @@ class BugsService {
     } else {
       AppState.currentBug = new Bug(res.data)
     }
+  }
+
+  async getBugsByPriority() {
+    AppState.bugs = []
+    const res = await api.get('api/bugs')
+    logger.log('get all the bugs', res)
+    const unsortedBugs = res.data.map(b => new Bug(b))
+    AppState.bugs = unsortedBugs.sort((a, b) => b.priority - a.priority)
+    logger.log('after sort', AppState.bugs)
+  }
+
+  async getBugsByQuery(query) {
+    AppState.bugs = []
+
+    const res = await api.get(`api/bugs?${query}`)
+    logger.log('get bugs by query', res)
+    AppState.bugs = res.data.map(b => new Bug(b))
   }
 
   async getBugById(id) {
