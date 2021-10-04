@@ -1,6 +1,6 @@
 <template>
   <div class="bugPage container-fluid px-5">
-    <div v-if="!currentBug">
+    <div v-if="!currentBug.creator">
       <h3>loading.........</h3>
     </div>
     <div v-else>
@@ -25,8 +25,8 @@
               <div class="row">
                 <div class="col-md-3">
                   <h5>Reported by: </h5>
-                  <!-- <img :src="currentBug.creator.picture" width="75" alt=""> -->
-                  <!-- <h6>{{ currentBug.creator.name }}</h6> -->
+                  <img :src="currentBug.creator.picture" width="75" alt="">
+                  <h6>{{ currentBug.creator.name }}</h6>
                 </div>
                 <div class="col-md-3">
                   <h5>Priority: </h5>
@@ -79,11 +79,14 @@
       <div class="row m-5">
         <div class="col-12">
           <h5>Notes: </h5>
+          <button v-if="user.isAuthenticated" class="btn btn-info my-2" type="button" data-bs-toggle="modal" data-bs-target="#note-form">
+            Create Note
+          </button>
         </div>
       </div>
       <div class="row m-5">
-        <div class="card shadow" v-if="notes">
-        <!--  INJECT NOTES FOR THIS BUG HERE -->
+        <div class="card shadow" v-if="notes.length > 0">
+          <Note v-for=" n in notes" :key="n.bugId" :note="n" />
         </div>
         <div class="card shadow py-3" v-else>
           <h6>No current notes for this bug</h6>
@@ -99,6 +102,14 @@
       <BugEditForm />
     </template>
   </Modal>
+  <Modal id="note-form">
+    <template #modal-title>
+      Create Note
+    </template>
+    <template #modal-body>
+      <NoteForm />
+    </template>
+  </Modal>
 </template>
 
 <script>
@@ -107,6 +118,7 @@ import { useRoute } from 'vue-router'
 import Pop from '../utils/Pop'
 import { bugsService } from '../services/BugsService'
 import { AppState } from '../AppState'
+import { notesService } from '../services/NotesService'
 export default {
   setup() {
     const route = useRoute()
@@ -118,10 +130,20 @@ export default {
         Pop.toast(error.message, 'error')
       }
     })
+    onMounted(async() => {
+      try {
+        const id = route.params.id
+        await notesService.getNotesByBugId(id)
+      } catch (error) {
+        Pop.toast(error.message, 'error')
+      }
+    })
     return {
       bugs: computed(() => AppState.bugs),
       currentBug: computed(() => AppState.currentBug),
       account: computed(() => AppState.account),
+      notes: computed(() => AppState.notes),
+      user: computed(() => AppState.user),
       async toggleStatus(closed) {
         try {
           await bugsService.toggleStatus(closed, route.params.id)

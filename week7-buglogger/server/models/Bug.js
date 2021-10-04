@@ -8,7 +8,7 @@ export const BugSchema = new Schema(
     priority: { type: Number, required: true, min: 1, max: 5 },
     closed: { type: Boolean, required: true, default: false },
     closedDate: { type: Date, required: false },
-    creatorId: { type: Schema.Types.ObjectId, required: false }
+    creatorId: { type: Schema.Types.ObjectId, required: false, ref: 'Account' }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )

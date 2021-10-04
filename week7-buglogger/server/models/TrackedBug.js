@@ -3,8 +3,8 @@ const Schema = mongoose.Schema
 
 export const TrackedBugSchema = new Schema(
   {
-    bugId: { type: Schema.Types.ObjectId, required: true },
-    accountId: { type: Schema.Types.ObjectId, required: true }
+    bugId: { type: Schema.Types.ObjectId, required: true, ref: 'Bug' },
+    accountId: { type: Schema.Types.ObjectId, required: true, ref: 'Account' }
   },
   { timestamps: true, toJSON: { virtuals: true } }
 )
