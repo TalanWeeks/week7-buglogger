@@ -1,5 +1,6 @@
 import { dbContext } from '../db/DbContext'
 import { BadRequest } from '../utils/Errors'
+import { logger } from '../utils/Logger'
 class BugsService {
   async getBugs(query = {}) {
     const bugs = await dbContext.Bugs.find(query).sort('-updatedAt').populate('creator')
@@ -44,7 +45,8 @@ class BugsService {
   }
 
   async getNotesByBugId(bugId) {
-    const notes = await dbContext.Notes.find({ bugId }).populate('creator')
+    logger.log(bugId)
+    const notes = await dbContext.Notes.find({ bugId: bugId }).populate('creator')
     return notes
   }
 
