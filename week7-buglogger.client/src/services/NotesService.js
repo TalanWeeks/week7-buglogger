@@ -8,10 +8,9 @@ import { api } from './AxiosService'
 
 class NotesService {
   async createNote(newNote) {
-    AppState.notes = []
     const res = await api.post('api/notes', newNote)
     logger.log('Note was made', res.data)
-    AppState.notes.shift(new Note(res.data))
+    AppState.notes.unshift(new Note(res.data))
   }
 
   async getNotesByBugId(bugId) {
