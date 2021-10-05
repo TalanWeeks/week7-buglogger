@@ -1,11 +1,16 @@
 <template>
   <div class="tracker-name container-fluid my-4">
-    <h5>
-      <span class="border-bottom">
-        Tracker:
-      </span>
-    </h5>
-    <h6>{{ bug.trackerName }}</h6>
+    <div v-if="trackedBugs.length > 0">
+      <h5>
+        <span class="border-bottom">
+          Tracker:
+        </span>
+      </h5>
+      <h6>{{ bug.trackerName }}</h6>
+    </div>
+    <div v-else>
+      <h1>hello</h1>
+    </div>
   </div>
 </template>
 
@@ -22,7 +27,7 @@ export default {
   setup() {
     const route = useRoute()
     return {
-      yourBugs: computed(() => AppState.yourTrackedBugs)
+      trackedBugs: computed(() => AppState.trackedBugs)
     }
   }
 }

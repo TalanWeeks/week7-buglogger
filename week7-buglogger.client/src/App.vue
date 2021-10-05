@@ -7,7 +7,11 @@
   </main>
   <footer>
     <div class="bg-dark text-light text-center p-4">
-      Made with 💖 by CodeWorks
+      <img class="m-2"
+           alt="logo"
+           src="https://th.bing.com/th/id/OIP.dZeSUTwd0_N32yQ5mqkm6AHaHa?pid=ImgDet&rs=1"
+           height="45"
+      />
     </div>
   </footer>
 </template>
