@@ -38,10 +38,13 @@ export default {
       notes: computed(() => AppState.notes),
       account: computed(() => AppState.account),
       async deleteNote(noteId) {
-        try {
-          await notesService.deleteNote(noteId)
-        } catch (error) {
-          Pop.toast(error.message, 'error')
+        const yes = await Pop.confirm('Do you want to delete this?')
+        if (!yes) { Pop.toast('delete canceled', 'success') } else {
+          try {
+            await notesService.deleteNote(noteId)
+          } catch (error) {
+            Pop.toast(error.message, 'error')
+          }
         }
       }
     }
