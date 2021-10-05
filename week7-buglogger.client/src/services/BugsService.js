@@ -1,6 +1,7 @@
 
 import { AppState } from '../AppState'
 import { Bug } from '../models/Bug'
+import { TrackedBug } from '../models/TrackedBug'
 import { router } from '../router'
 import { logger } from '../utils/Logger'
 import { api } from './AxiosService'
@@ -63,6 +64,21 @@ class BugsService {
     const res = await api.put('api/bugs/' + bugId, { closed: closed })
     AppState.currentBug = res.data
     logger.log('your edited bug sir', res.data)
+  }
+
+  async createTrackedBug(trackedBugData) {
+    logger.log(trackedBugData)
+    const res = await api.post('api/trackedbugs', trackedBugData)
+    logger.log('created tracked bug', res)
+    AppState.trackedBug = res.data
+    logger.log('tracked bug in app state', AppState.trackedBug)
+    AppState.trackedBugs.unshift(new TrackedBug(res.data))
+  }
+
+  async getTrackedBugByBugId(bugId) {
+    const res = await api.get(`api/bugs/${bugId}/trackedbugs`)
+    AppState.trackedBugs = res.data
+    logger.log('the bugs or bug tied to this id...not sure how this will go', res.data)
   }
 }
 export const bugsService = new BugsService()

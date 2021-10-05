@@ -60,16 +60,25 @@
             </div>
             <div class="card-footer">
               <div class="row">
-                <div class="col-6">
-                  <button class="btn btn-info mb-2">
+                <div class="col-6" v-if="trackedBugs.length>0">
+                  <button class="btn btn-info mb-2" @click="createTrackedBug(account.id)" v-if="trackedBugs[0].accountId !== account.id">
                     Track Bug
                   </button>
+                  <div v-else>
+                    <button class="btn btn-danger mb-2 unselectable" @click="popMessage()">
+                      Tracking Bug
+                    </button>
+                    <img :src="currentBug.creator.picture" width="35" class="ms-3" alt="">
+                    <span>{{ account.name }}</span>
+                  </div>
                 </div>
                 <div class="col-md-6">
                   <h6>
-                    People Tracking This Bug:
-                    <span>++people tracking it++</span>
+                    Other Users Tracking This Bug:
                   </h6>
+                  <div v-for="bugs in trackedBug" :key="bugs" :bugs="bugs">
+                    <h6>{{ trackedBug.tracker.name }}</h6>
+                  </div>
                 </div>
               </div>
             </div>
@@ -113,23 +122,29 @@
 </template>
 
 <script>
-import { computed, onMounted } from '@vue/runtime-core'
+import { computed, onMounted, ref } from '@vue/runtime-core'
 import { useRoute } from 'vue-router'
 import Pop from '../utils/Pop'
 import { bugsService } from '../services/BugsService'
 import { AppState } from '../AppState'
 import { notesService } from '../services/NotesService'
 import { logger } from '../utils/Logger'
+import { TrackedBug } from '../models/TrackedBug'
 
 export default {
+  props: {
+    trackedBug: { type: TrackedBug, required: true }
+  },
   setup() {
     const route = useRoute()
+    const editable = ref({})
 
     onMounted(async() => {
       try {
         await bugsService.getBugById(route.params.id)
         const bugId = route.params.id
         await notesService.getNotesByBugId(bugId)
+        await bugsService.getTrackedBugByBugId(route.params.id)
       } catch (error) {
         Pop.toast(error.message, 'error')
       }
@@ -141,12 +156,27 @@ export default {
       account: computed(() => AppState.account),
       notes: computed(() => AppState.notes),
       user: computed(() => AppState.user),
+      trackedBugs: computed(() => AppState.trackedBugs),
+
       async toggleStatus(closed) {
         try {
           await bugsService.toggleStatus(closed, route.params.id)
         } catch (error) {
           Pop.toast(error.message, 'error')
         }
+      },
+      async createTrackedBug(accountId) {
+        try {
+          editable.value.accountId = accountId
+          editable.value.bugId = route.params.id
+          await bugsService.createTrackedBug(editable.value)
+        } catch (error) {
+          Pop.toast(error.message, 'error')
+        }
+      },
+
+      popMessage() {
+        Pop.toast('you\'re already tracking this bug', 'error')
       }
     }
   }
