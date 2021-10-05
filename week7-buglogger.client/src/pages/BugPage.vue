@@ -60,11 +60,11 @@
             </div>
             <div class="card-footer">
               <div class="row">
-                <div class="col-6" v-if="trackedBugs.length>0">
-                  <button class="btn btn-info mb-2" @click="createTrackedBug(account.id)" v-if="trackedBugs[0].accountId !== account.id">
+                <div class="col-6">
+                  <button class="btn btn-info mb-2" @click="createTrackedBug(account.id)">
                     Track Bug
                   </button>
-                  <div v-else>
+                  <div>
                     <button class="btn btn-danger mb-2 unselectable" @click="popMessage()">
                       Tracking Bug
                     </button>
@@ -76,8 +76,8 @@
                   <h6>
                     Other Users Tracking This Bug:
                   </h6>
-                  <div v-for="bugs in trackedBug" :key="bugs" :bugs="bugs">
-                    <h6>{{ trackedBug.tracker.name }}</h6>
+                  <div>
+                    <TrackerName v-for="bugs in trackedBugs" :key="bugs" :bug="bugs" />
                   </div>
                 </div>
               </div>

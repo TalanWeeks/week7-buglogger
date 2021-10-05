@@ -77,7 +77,7 @@ class BugsService {
 
   async getTrackedBugByBugId(bugId) {
     const res = await api.get(`api/bugs/${bugId}/trackedbugs`)
-    AppState.trackedBugs = res.data
+    AppState.trackedBugs = res.data.map(b => new TrackedBug(b))
     logger.log('the bugs or bug tied to this id...not sure how this will go', res.data)
   }
 }
