@@ -9,13 +9,21 @@
           <img class="rounded" :src="account.picture" alt="" />
           <h6>{{ account.name }}</h6>
         </div>
-        <div class="col-md-5 m-2">
+        <div class="col-md-5 m-2" v-if="yourBugs.length">
           <h4>
             <span class="border-bottom border-1 border-secondary">
               Bugs You're Tracking:
             </span>
           </h4>
           <TrackedBug v-for="bugs in yourBugs" :key="bugs" :bug="bugs" />
+        </div>
+        <div class="col-md-5 m-2" v-else>
+          <h4>
+            <span class="border-bottom border-1 border-secondary">
+              Bugs You're Tracking:
+            </span>
+          </h4>
+          <h5>You aren't tracking any bugs</h5>
         </div>
       </div>
     </div>

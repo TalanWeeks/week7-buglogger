@@ -76,8 +76,11 @@
                   <h6>
                     Other Users Tracking This Bug:
                   </h6>
-                  <div>
+                  <div v-if="trackedBugs.length">
                     <TrackerName v-for="bugs in trackedBugs" :key="bugs" :bug="bugs" />
+                  </div>
+                  <div v-else>
+                    <h6>There are no users tracking this bug</h6>
                   </div>
                 </div>
               </div>

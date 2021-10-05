@@ -13,14 +13,12 @@
 import { computed } from '@vue/runtime-core'
 import { TrackedBug } from '../models/TrackedBug'
 import { AppState } from '../AppState'
-import { useRoute } from 'vue-router'
 
 export default {
   props: {
     bug: { type: TrackedBug, required: true }
   },
   setup() {
-    const route = useRoute()
     return {
       yourBugs: computed(() => AppState.yourTrackedBugs)
     }
