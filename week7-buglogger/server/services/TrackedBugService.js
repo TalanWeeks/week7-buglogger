@@ -22,10 +22,10 @@ class TrackedBugsService {
     return bugs
   }
 
-  async deleteTrackedBug(id, body) {
-    if (body.creatorId !== body.accountId) {
-      throw new BadRequest('you dont have permission to delete this')
-    }
+  async deleteTrackedBug(id) {
+    // if (body.creatorId !== body.accountId) {
+    //   throw new BadRequest('you dont have permission to delete this')
+    // }
     const trackedBug = await dbContext.TrackedBugs.findByIdAndDelete(id)
     return trackedBug
   }

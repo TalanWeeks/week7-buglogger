@@ -32,9 +32,7 @@ export class TrackedBugController extends BaseController {
 
   async deleteTrackedBug(req, res, next) {
     try {
-      req.body.accountId = req.account.id
-      req.body.creatorId = req.trackedBug.creatorId
-      const trackedBug = await trackedBugsService.deleteTrackedBug(req.params.id, req.body)
+      const trackedBug = await trackedBugsService.deleteTrackedBug(req.params.id)
       res.send(trackedBug)
     } catch (error) {
       next(error)
