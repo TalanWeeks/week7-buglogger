@@ -44,7 +44,6 @@ export class BugsController extends BaseController {
 
   async editBug(req, res, next) {
     try {
-      req.body.accountId = req.account.id
       const editedBug = await bugsService.editBug(req.params.id, req.body)
       res.send(editedBug)
     } catch (error) {
@@ -54,8 +53,7 @@ export class BugsController extends BaseController {
 
   async closeBug(req, res, next) {
     try {
-      req.body.accountId = req.account.id
-      const closedBug = await bugsService.closeBug(req.params.id, req.body.accountId)
+      const closedBug = await bugsService.closeBug(req.params.id)
       res.send(closedBug)
     } catch (error) {
       next(error)

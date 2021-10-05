@@ -23,7 +23,7 @@ class BugsService {
 
   async editBug(bugId, body) {
     const bug = await this.getBugById(bugId)
-    if (bug.closed || bug.creatorId !== body.accountId) {
+    if (bug.closed) {
       throw new BadRequest('this item is closed')
     } else {
       bug.title = body.title || bug.title
@@ -36,13 +36,12 @@ class BugsService {
     }
   }
 
-  async closeBug(bugId, body) {
+  async closeBug(bugId) {
     const closedBug = await this.getBugById(bugId)
-    if (closedBug.closed === true || closedBug.creatorId !== body) { throw new BadRequest('this item is closed') } else {
-      closedBug.closed = true
-      await closedBug.save()
-      return closedBug
-    }
+    if (closedBug.closed === true) { return }
+    closedBug.closed = true
+    await closedBug.save()
+    return closedBug
   }
 
   async getNotesByBugId(bugId) {

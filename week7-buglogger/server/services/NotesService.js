@@ -15,10 +15,10 @@ class NotesService {
     return note
   }
 
-  async deleteNote(id, body) {
-    if (body.creatorId !== body.accountId) {
-      throw new BadRequest('you dont have permission to delete this')
-    }
+  async deleteNote(id) {
+    // if (body.creatorId !== body.accountId) {
+    //   throw new BadRequest('you dont have permission to delete this')
+    // }
     const deletedNote = await dbContext.Notes.findByIdAndDelete(id)
     return deletedNote
   }
